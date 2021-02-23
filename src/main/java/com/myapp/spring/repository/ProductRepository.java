@@ -5,8 +5,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.myapp.spring.model.Product;
 
-@RestResource(path="products")
+@RestResource(path = "products")
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 }
- 
