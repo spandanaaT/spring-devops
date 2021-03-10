@@ -29,10 +29,23 @@ node {
          bat(/"${mvnHome}\bin\mvn" sonar:sonar/)
       }
    }
-   stage('Deploy') {
-       sh 'curl -u jenkins:jenkins -T target/**.war "http://localhost:8080/manager/text/deploy?path=/spring-devops&update=true"'
-   }
-   stage("Smoke Test"){
-       sh "curl --retry-delay 10 --retry 5 http://localhost:8080/spring-devops"
-   }
+   stage("Docker build") {
+steps {
+sh "docker build -t spandanaat/spring-devops:${BUILD_TIMESTAMP} ."
+}
+}
+
+stage("Docker login") {
+steps {
+withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'spandanaat',
+usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+sh "docker login --username $USERNAME --password $PASSWORD"
+}
+}
+}
+
+stage("Docker push") {
+steps {
+sh "docker push /spring-devops:${BUILD_TIMESTAMP}"
+}
 }
