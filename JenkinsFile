@@ -31,13 +31,13 @@ node {
    }
    stage("Docker build") {
 steps {
-sh "docker build -t spandanaat/spring-devops:${BUILD_TIMESTAMP} ."
+sh "docker build -t spandanaaT/spring-devops:${BUILD_TIMESTAMP} ."
 }
 }
 
 stage("Docker login") {
 steps {
-withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'spandanaat',
+withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'spandanaaT',
 usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 sh "docker login --username $USERNAME --password $PASSWORD"
 }
